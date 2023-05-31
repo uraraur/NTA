@@ -1,3 +1,14 @@
-# syntax=docker/dockerfile:1
+FROM jupyter/base-notebook
 
-FROM python:3.8-slim-buster
+USER root
+
+RUN apt-get update \
+    && echo "Updated apt-get" \
+    && apt-get install -y openjdk-8-jre \
+    && echo "Installed openjdk 8"
+    
+RUN conda install -y -c jetbrains kotlin-jupyter-kernel && echo "Kotlin Jupyter kernel installed via conda"
+
+USER $NB_UID
+
+ENV JUPYTER_ENABLE_LAB=yes
