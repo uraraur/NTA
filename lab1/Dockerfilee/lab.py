@@ -2,8 +2,7 @@ import random
 import math
 import time
 import warnings
-warnings.filterwarnings("ignore", category=DeprecationWarning) 
-
+warnings.filterwarnings("ignore", category=DeprecationWarning)
 prime = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]
 
 #Iмовiрнiсний тест Мiллера-Рабiна та допоміжна функція перевірки числа на псевдопростоту:
@@ -11,7 +10,7 @@ prime = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67,
 def pseudo_prime(x, d, p, s):
     if pow(x, d, p) == 1 or pow(x, d, p) == -1 % p:
         return 1
-    x_r = pow(x, 2 * d, p) 
+    x_r = pow(x, 2 * d, p)
     for i in range(1, s):
         if x_r == -1 % p:
             return 1
@@ -32,9 +31,9 @@ def miller_rabin_primality(p, k):
             s = s + 1
         x = random.randint(2, p - 1)
         if math.gcd(x, p) > 1:
-            return (f"The number {p} is composite")
+            return f"The number {p} is composite"
         if pseudo_prime(x, n, p, s) == 0:
-            return (f"The number {p} is composite")
+            return f"The number {p} is composite"
         j = j + 1
     return 1
 
@@ -229,7 +228,7 @@ def canonical_search(n):
         end_time = time.time()
         print(f"The number {n} is prime. ")
         elapsed_time = end_time - start_time
-        print(f"Elapsed time: {elapsed_time}") 
+        print(f"Elapsed time: {elapsed_time}")
         return [n]
     
     print("\n2.Metod probnih dilen`")
@@ -243,7 +242,7 @@ def canonical_search(n):
         factors.append(a)
         print(f"The divisor {a} found")
         elapsed_time = end_time - start_time
-        print(f"Elapsed time: {elapsed_time}") 
+        print(f"Elapsed time: {elapsed_time}")
         n =  n // a
 
     if miller_rabin_primality(n, 100) == 1:
@@ -283,9 +282,8 @@ def canonical_search(n):
         if miller_rabin_primality(n, 10) == 1:
             factors.append(n)
             return factors
-            
-    return factors
         
+    return factors
 
 a = int(input("Input the number you want to factore:"))
 print("\n", canonical_search(a))
