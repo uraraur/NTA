@@ -217,70 +217,37 @@ def f(x, n):
     return (x ** 2 + 1) % n
 
 def canonical_search(n):
-    print(f"The number we want to factor {n}\n")
+
     factors = []
 
-    print("1.Miller-Rabin primarity")
-
-    start_time = time.time()
-    if miller_rabin_primality(n, 10) != 1:
-        print(f"{miller_rabin_primality(n, 10)}")
     if miller_rabin_primality(n, 10) == 1:
-        end_time = time.time()
-        print(f"The number {n} is prime. ")
-        elapsed_time = end_time - start_time
-        print(f"Elapsed time: {elapsed_time}")
         return [n]
     
-    print("\n2.Metod probnih dilen`")
-
     while True:
-        start_time = time.time()
         a = probni_dilenya(n)
-        end_time = time.time()
         if a == 0:
             break
         factors.append(a)
-        print(f"The divisor {a} found")
-        elapsed_time = end_time - start_time
-        print(f"Elapsed time: {elapsed_time}")
         n =  n // a
     
     if n == 1: 
         return factors
 
     if miller_rabin_primality(n, 100) == 1:
-        print(f"The number {n} is prime. ")
         return factors
 
-    print("\n3.rho-Pollard method")
-    start_time = time.time()
     a = rho_pollard(n, 2, f)
-    end_time = time.time()
     if a != 0:
-        print(f"The divisor {a} found")
-        elapsed_time = end_time - start_time
-        print(f"Elapsed time: {elapsed_time}") 
         factors.append(a)
         n = n // a
         if miller_rabin_primality(n, 100) == 1:
-            print(f"The number {n} is prime. ")
             factors.append(n)
             return factors
-        
-
-    print("\n4.CFRAC")  
 
     while True:
-        start_time = time.time()
         a = cfrac(n)
-        end_time = time.time()  
         if a == 0:
-            print(f"Can`t factor {n}.. :(")
             return factors
-        print(f"The divisor {a} found")
-        elapsed_time = end_time - start_time
-        print(f"Elapsed time: {elapsed_time} \n") 
         factors.append(a)
         n = n // a
         if miller_rabin_primality(n, 10) == 1:

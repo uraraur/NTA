@@ -25,6 +25,15 @@ def inv(a, b):
         return "No inverse exists"
     return u   
 
+def invpow(a, x, n):
+    if x == 0:
+        return 1
+    b = a
+    while x < -1:
+        b = (b * a) % n
+        x = x + 1  
+    return inv(b, n) % n 
+
 #-------------------------------------
 #Повний перебір:
 
@@ -44,14 +53,41 @@ def brute_force_search(a, b, n):
 #Алгоритм Сільвера-Поліга-Гелльгама:
 
 def pohlig_hellman_alg(a, b, n):
-    canon = canonical_search(n)
-    print(canon)
+    ord = n - 1
+    canon = canonical_search(ord)
     factors = []
+    r = []
     for i in canon:
-        factors.append(i)
+        if i not in factors:
+            factors.append(i)
+    powers = [0] * len(factors)
+    for i in range(len(canon)):
+        num = factors.index(canon[i])
+        powers[num] = powers[num] + 1
+
+    for p in factors:
+        r_p = []
+        for j in range(0, p):
+            r_p.append(pow(a, (ord * j) // p) % n )
+        r.append(r_p)
+
+    print(f"canon: {canon}, {factors}, {powers}")
+    print(r)
+    X = []
+    for i in range(len(factors)):
+        num = pow(b, ord // factors[i]) % n
+        x_i = r[i].index(num)
+        x_pow = x_i
+        for j in range(1, powers[i]): 
+            num = pow(b * invpow(a, -x_pow, n), ord // (factors[i] ** (j + 1)))  % n
+            x_i = r[i].index(num)
+            x_pow = x_pow + x_i * (factors[i] ** j)
+        X.append(x_pow) #########
+    print(X)
+
     return 1
 
-pohlig_hellman_alg(3, 13, 16)
+pohlig_hellman_alg(5, 11, 97)
 
 print("HI")
 
