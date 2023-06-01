@@ -44,4 +44,11 @@ def brute_force_search(a, b, n):
 #Алгоритм Сільвера-Поліга-Гелльгама:
 
 def pohlig_hellman_alg(a, b, n):
+    canon = canonical_search(n)
+    factors = []
+    for i in canon:
+        factors.append(i)
+    print(factors)
     return 1
+
+pohlig_hellman_alg(3, 13, 16)
