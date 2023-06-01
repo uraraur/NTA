@@ -228,8 +228,8 @@ def canonical_search(n):
             break
         factors.append(a)
         n =  n // a
-
-    if miller_rabin_primality(n, 100) == 1:
+        
+    if miller_rabin_primality(n, 10) == 1:
         return factors
 
     a = rho_pollard(n, 2, f)
