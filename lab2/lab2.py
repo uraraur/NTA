@@ -34,6 +34,23 @@ def invpow(a, x, n):
         x = x + 1  
     return inv(b, n) % n 
 
+def chinese(X, canon):
+    x = 0
+    N = 1
+    N_i = [0] * len(canon)
+    M_i = [0] * len(canon)
+
+    for i in range(len(canon)):
+        N = N * canon[i]
+    for i in range(len(canon)):
+        N_i[i] = N // canon[i]     
+        M_i[i] = inv(N_i[i], canon[i])
+
+    for i in range(len(canon)):
+        x = x + X[i] * N_i[i] * M_i[i] 
+    x = x % N
+    return x 
+
 #-------------------------------------
 #Повний перебір:
 
@@ -61,9 +78,14 @@ def pohlig_hellman_alg(a, b, n):
         if i not in factors:
             factors.append(i)
     powers = [0] * len(factors)
+
     for i in range(len(canon)):
         num = factors.index(canon[i])
         powers[num] = powers[num] + 1
+
+    canon.clear()
+    for i in range(len(factors)):
+        canon.append(pow(factors[i],powers[i]))
 
     for p in factors:
         r_p = []
@@ -71,8 +93,6 @@ def pohlig_hellman_alg(a, b, n):
             r_p.append(pow(a, (ord * j) // p) % n )
         r.append(r_p)
 
-    print(f"canon: {canon}, {factors}, {powers}")
-    print(r)
     X = []
     for i in range(len(factors)):
         num = pow(b, ord // factors[i]) % n
@@ -83,11 +103,9 @@ def pohlig_hellman_alg(a, b, n):
             x_i = r[i].index(num)
             x_pow = x_pow + x_i * (factors[i] ** j)
         X.append(x_pow) #########
-    print(X)
 
-    return 1
+    return chinese(X, canon)
 
-pohlig_hellman_alg(5, 11, 97)
+print(pohlig_hellman_alg(70378, 5729, 85303))
 
-print("HI")
 
