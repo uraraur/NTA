@@ -288,4 +288,4 @@ def canonical_search(n):
         
 
 #a = int(input("Input the number you want to factore:"))
-print("\n", canonical_search(a))
+#print("\n", canonical_search(a))

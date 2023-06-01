@@ -6,9 +6,6 @@ from lab import *
 
 #Допоміжні функції
 
-
-print(miller_rabin_primality(13546, 10))
-
 def gcd(a, b):
     r_0, r_1 = a, b 
     u_0, u_1 = 1, 0
