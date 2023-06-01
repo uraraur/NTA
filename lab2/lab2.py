@@ -6,7 +6,7 @@ from lab import *
 
 #Допоміжні функції
 
-def gcd(a, b):
+def gcd(a, b): 
     r_0, r_1 = a, b 
     u_0, u_1 = 1, 0
     v_0, v_1 = 0, 1
@@ -25,7 +25,7 @@ def inv(a, b):
         return "No inverse exists"
     return u   
 
-def invpow(a, x, n):
+def invpow(a, x, n): #обернене в якомусь степені))
     if x == 0:
         return 1
     b = a
@@ -34,7 +34,7 @@ def invpow(a, x, n):
         x = x + 1  
     return inv(b, n) % n 
 
-def chinese(X, canon):
+def chinese(X, canon): #КТО
     x = 0
     N = 1
     N_i = [0] * len(canon)
@@ -52,13 +52,14 @@ def chinese(X, canon):
     return x 
 
 #-------------------------------------
+
 #Повний перебір:
 
 def brute_force_search(a, b, n):
     m = 0
     start_time = time.time()
     for i in range(n):
-        m = pow(a, i) % n
+        m = pow(a, i, n)
         if m == b:
             return i
         end_time = time.time()
@@ -67,9 +68,11 @@ def brute_force_search(a, b, n):
     return 0 
 
 #-------------------------------------       
+
 #Алгоритм Сільвера-Поліга-Гелльгама:
 
 def pohlig_hellman_alg(a, b, n):
+    start_time = time.time()
     ord = n - 1
     canon = canonical_search(ord)
     factors = []
@@ -90,22 +93,28 @@ def pohlig_hellman_alg(a, b, n):
     for p in factors:
         r_p = []
         for j in range(0, p):
-            r_p.append(pow(a, (ord * j) // p) % n )
+            r_p.append(pow(a, (ord * j) // p, n ))
         r.append(r_p)
+
+    end_time = time.time()
+    if end_time - start_time > 295:
+        return "Time out!!"
 
     X = []
     for i in range(len(factors)):
-        num = pow(b, ord // factors[i]) % n
+        num = pow(b, ord // factors[i], n)
         x_i = r[i].index(num)
         x_pow = x_i
         for j in range(1, powers[i]): 
-            num = pow(b * invpow(a, -x_pow, n), ord // (factors[i] ** (j + 1)))  % n
+            num = pow(b * invpow(a, -x_pow, n), ord // (factors[i] ** (j + 1)), n) 
             x_i = r[i].index(num)
-            x_pow = x_pow + x_i * (factors[i] ** j)
-        X.append(x_pow) #########
+            x_pow = (x_pow + x_i * (factors[i] ** j)) % canon[i]
+        X.append(x_pow)
 
     return chinese(X, canon)
 
-print(pohlig_hellman_alg(70378, 5729, 85303))
+
+print(pohlig_hellman_alg(483303352902419, 511939775232752, 771816501687809))
+
 
 

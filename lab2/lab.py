@@ -234,6 +234,7 @@ def canonical_search(n):
         return factors
 
     if miller_rabin_primality(n, 100) == 1:
+        factors.append(n)
         return factors
 
     a = rho_pollard(n, 2, f)
