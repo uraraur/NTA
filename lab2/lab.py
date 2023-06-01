@@ -290,5 +290,5 @@ def canonical_search(n):
     return factors
         
 
-a = int(input("Input the number you want to factore:"))
-print("\n", canonical_search(a))
+#a = int(input("Input the number you want to factore:"))
+#print("\n", canonical_search(a))

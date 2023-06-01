@@ -1,7 +1,7 @@
 import time
 import signal
 import sys
-sys.path.insert(0, 'H:/ААА/NTA/lab1/Dockerfilee')
+sys.path.insert(0, 'H:/ААА/NTA/lab2')
 from lab import *
 
 #Допоміжні функції
@@ -45,10 +45,13 @@ def brute_force_search(a, b, n):
 
 def pohlig_hellman_alg(a, b, n):
     canon = canonical_search(n)
+    print(canon)
     factors = []
     for i in canon:
         factors.append(i)
-    print(factors)
     return 1
 
 pohlig_hellman_alg(3, 13, 16)
+
+print("HI")
+
