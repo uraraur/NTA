@@ -244,6 +244,9 @@ def canonical_search(n):
         elapsed_time = end_time - start_time
         print(f"Elapsed time: {elapsed_time}")
         n =  n // a
+    
+    if n == 1: 
+        return factors
 
     if miller_rabin_primality(n, 100) == 1:
         print(f"The number {n} is prime. ")
@@ -285,5 +288,5 @@ def canonical_search(n):
         
     return factors
 
-#a = int(input("Input the number you want to factore:"))
+a = int(input("Input the number you want to factore:"))
 print("\n", canonical_search(a))
