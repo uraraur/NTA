@@ -182,7 +182,8 @@ def cfrac(n):
     k = len(S_true)
     keys = S_true.keys()
 
-    for p in range(0, 500 * k):        
+    for p in range(0, 500 * k):       
+         
         i = random.sample(keys, random.randint(1, len(keys)))
         if check_system(S_true, i, factor_base) == 1:
             X = 1
@@ -233,7 +234,7 @@ def canonical_search(n):
     if n == 1: 
         return factors
 
-    if miller_rabin_primality(n, 100) == 1:
+    if miller_rabin_primality(n, 10) == 1:
         factors.append(n)
         return factors
 
@@ -241,7 +242,7 @@ def canonical_search(n):
     if a != 0:
         factors.append(a)
         n = n // a
-        if miller_rabin_primality(n, 100) == 1:
+        if miller_rabin_primality(n, 10) == 1:
             factors.append(n)
             return factors
 

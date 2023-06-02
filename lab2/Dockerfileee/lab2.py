@@ -69,14 +69,10 @@ def chinese(X, canon): #КТО
 
 def brute_force_search(a, b, n):
     m = 0
-    start_time = time.time()
     for i in range(n):
         m = pow(a, i, n)
         if m == b:
             return i
-        end_time = time.time()
-        if end_time - start_time > 295:
-            return "Time out!!"
     return 0 
 
 #-------------------------------------       
@@ -120,14 +116,17 @@ def pohlig_hellman_alg(a, b, n):
 
     return chinese(X, canon)
 
-
 if __name__ == '__main__':
 
     a = int(input("Input the generator of a group: "))
     b = int(input("Input the element of a group: "))
     n = int(input("Input the module: "))
+
     if run_with_limited_time(pohlig_hellman_alg, (a, b, n), {}, 300) == 1:
-        print(pohlig_hellman_alg(a, b, n))
+        start_time = time.time()
+        print(f"Pohlig-Hellman algorithm: {pohlig_hellman_alg(a, b, n)}")
+        end_time = time.time()
+        print(f"Elapsed time: {end_time - start_time}")
     else:
         print("Timeout!")
 
