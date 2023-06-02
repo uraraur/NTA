@@ -1,9 +1,20 @@
 import time
-import func_timeout
-import signal
 import sys
+from multiprocessing import Process
 sys.path.insert(0, 'H:/ААА/NTA/lab2')
 from lab import *
+
+def run_with_limited_time(func, args, kwargs, time):
+    
+    p = Process(target=func, args=args, kwargs=kwargs)
+    p.start()
+    p.join(time)
+    if p.is_alive():
+        p.terminate()
+        return False
+
+    return True
+
 
 #Допоміжні функції
 
@@ -110,40 +121,13 @@ def pohlig_hellman_alg(a, b, n):
     return chinese(X, canon)
 
 
-#print(pohlig_hellman_alg(483303352902419, 511939775232752, 771816501687809))
+if __name__ == '__main__':
 
-def my_function(n):
-    """Sleep for n seconds and return n squared."""
-    print(f'Processing {n}')
-    time.sleep(n)
-    return n**2
-
-
-def main_controller(max_wait_time, all_data):
-    """
-    Feed my_function with a list of itens to process (all_data).
-
-    However, if max_wait_time is exceeded, return the item and a fail info.
-    """
-    res = []
-    for data in all_data:
-        try:
-            my_square = func_timeout.func_timeout(
-                max_wait_time, my_function, args=[data]
-                )
-            res.append((my_square, 'processed'))
-        except func_timeout.FunctionTimedOut:
-            print('error')
-            res.append((data, 'fail'))
-            continue
-
-    return res
-
-
-timeout_time = 300
-all_data = range(1, 10)  # the data to be processed
-
-res = main_controller(timeout_time, all_data)
-print(res)
-
+    a = int(input("Input the generator of a group: "))
+    b = int(input("Input the element of a group: "))
+    n = int(input("Input the module: "))
+    if run_with_limited_time(pohlig_hellman_alg, (a, b, n), {}, 15) == 1:
+        print(pohlig_hellman_alg(a, b, n))
+    else:
+        print("Timeout!")
 
