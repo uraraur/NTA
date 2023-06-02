@@ -126,7 +126,7 @@ if __name__ == '__main__':
     a = int(input("Input the generator of a group: "))
     b = int(input("Input the element of a group: "))
     n = int(input("Input the module: "))
-    if run_with_limited_time(pohlig_hellman_alg, (a, b, n), {}, 15) == 1:
+    if run_with_limited_time(pohlig_hellman_alg, (a, b, n), {}, 300) == 1:
         print(pohlig_hellman_alg(a, b, n))
     else:
         print("Timeout!")
